@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Le controlleur Spring MVC qui expose les endpoints REST
- * 
+ *
  * @author bflorat
  *
  */
@@ -22,22 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoListController {
 
 	private static final String LATE = "[LATE!]";
-	private TodoItemRepository todoItemRepository;
-
+	private final TodoItemRepository todoItemRepository;
+	@Autowired
 	public TodoListController(TodoItemRepository todoItemRepository) {
-		super();
 		this.todoItemRepository = todoItemRepository;
-	}
-	
-	public TodoListController() {
-		super();		
 	}
 
 	@PostMapping("/todos")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void createTodoItem(@RequestBody TodoItem todoItem) {
-		// Code à compléter
-		// ...
+		todoItemRepository.save(todoItem);
 	}
 
 	@GetMapping("/todos")
